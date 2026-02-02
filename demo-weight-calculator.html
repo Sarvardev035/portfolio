@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Calculator - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .conversion-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .result-label {
+            color: #666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .result-value {
+            color: #667eea;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .units-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .result-value {
+                font-size: 1.4rem;
+            }
+        }
+
+        .features {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .features h3 {
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .features ul {
+            list-style: none;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .features li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚖️ Weight Calculator</h1>
+        <p class="subtitle">Convert between different weight units instantly</p>
+
+        <div class="input-group">
+            <label for="weight">Enter Weight:</label>
+            <input type="number" id="weight" placeholder="Enter weight value" value="100" step="0.01">
+        </div>
+
+        <div class="units-grid">
+            <div class="input-group">
+                <label for="fromUnit">From:</label>
+                <select id="fromUnit">
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="g">Gram (g)</option>
+                    <option value="mg">Milligram (mg)</option>
+                    <option value="lb">Pound (lb)</option>
+                    <option value="oz">Ounce (oz)</option>
+                    <option value="ton">Metric Ton (t)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="toUnit">To:</label>
+                <select id="toUnit">
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="g" selected>Gram (g)</option>
+                    <option value="mg">Milligram (mg)</option>
+                    <option value="lb">Pound (lb)</option>
+                    <option value="oz">Ounce (oz)</option>
+                    <option value="ton">Metric Ton (t)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn" onclick="convertWeight()">Convert</button>
+
+        <div class="results" id="results" style="display: none;">
+            <div class="result-item">
+                <div class="result-label">Input</div>
+                <div class="result-value"><span id="inputDisplay">0</span> <span id="inputUnitDisplay">kg</span></div>
+            </div>
+            <div class="result-item">
+                <div class="result-label">Output</div>
+                <div class="result-value"><span id="outputDisplay">0</span> <span id="outputUnitDisplay">g</span></div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>✨ Features</h3>
+            <ul>
+                <li>Multiple unit support</li>
+                <li>Real-time conversions</li>
+                <li>Accurate calculations</li>
+                <li>User-friendly interface</li>
+                <li>Instant results</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Conversion factors to kilograms
+        const conversionFactors = {
+            'kg': 1,
+            'g': 0.001,
+            'mg': 0.000001,
+            'lb': 0.453592,
+            'oz': 0.0283495,
+            'ton': 1000
+        };
+
+        const unitNames = {
+            'kg': 'kg',
+            'g': 'g',
+            'mg': 'mg',
+            'lb': 'lb',
+            'oz': 'oz',
+            'ton': 't'
+        };
+
+        function convertWeight() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const fromUnit = document.getElementById('fromUnit').value;
+            const toUnit = document.getElementById('toUnit').value;
+
+            if (isNaN(weight) || weight < 0) {
+                alert('Please enter a valid weight value');
+                return;
+            }
+
+            // Convert to kilograms first
+            const weightInKg = weight * conversionFactors[fromUnit];
+
+            // Convert to target unit
+            const result = weightInKg / conversionFactors[toUnit];
+
+            // Display results
+            document.getElementById('inputDisplay').textContent = weight.toFixed(2);
+            document.getElementById('inputUnitDisplay').textContent = unitNames[fromUnit];
+            document.getElementById('outputDisplay').textContent = result.toFixed(4);
+            document.getElementById('outputUnitDisplay').textContent = unitNames[toUnit];
+            document.getElementById('results').style.display = 'block';
+        }
+
+        // Convert on Enter key
+        document.getElementById('weight').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                convertWeight();
+            }
+        });
+
+        // Auto-convert on select change
+        document.getElementById('fromUnit').addEventListener('change', convertWeight);
+        document.getElementById('toUnit').addEventListener('change', convertWeight);
+
+        // Initial conversion
+        convertWeight();
+    </script>
+</body>
+</html>

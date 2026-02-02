@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Demos - Sarvardev035</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            border-bottom: 2px solid #00d4ff;
+        }
+
+        h1 {
+            color: #00d4ff;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .breadcrumb {
+            color: #a0a0c0;
+            margin: 1rem 0;
+        }
+
+        .breadcrumb a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-section {
+            background: rgba(30, 30, 50, 0.6);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-title {
+            color: #00d4ff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .demo-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-description {
+            color: #b0b0d0;
+            line-height: 1.8;
+        }
+
+        .demo-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: rgba(255, 0, 110, 0.2);
+            border: 1px solid rgba(255, 0, 110, 0.4);
+            color: #ff006e;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+
+        .demo-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 0, 110, 0.2);
+            border: 1px solid rgba(255, 0, 110, 0.5);
+            color: #ff006e;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 0, 110, 0.3);
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 10px;
+            background: #000;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #00d4ff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: #6080a0;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .demo-info {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-title {
+                font-size: 1.5rem;
+            }
+
+            .iframe-container {
+                height: 400px;
+            }
+
+            .demo-links {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Live Project Demos</h1>
+            <p class="breadcrumb">
+                <a href="index.html">← Back to Portfolio</a>
+            </p>
+        </header>
+
+        <div id="demosContainer">
+            <div class="loading">Loading available demos...</div>
+        </div>
+
+        <footer>
+            <p>© 2026 Sarvardev035 | <a href="https://github.com/Sarvardev035" target="_blank" style="color: #00d4ff; text-decoration: none;">Visit GitHub</a></p>
+        </footer>
+    </div>
+
+    <script>
+        const GITHUB_USERNAME = 'Sarvardev035';
+        const API_BASE = 'https://api.github.com';
+
+        // Define which repos have live demos and their configurations
+        const DEMO_CONFIGS = {
+            'weight-calculator': {
+                title: 'Weight Calculator',
+                description: 'An interactive weight calculation tool with support for multiple units and real-time unit conversions. Perfect for quick weight calculations and conversions between different measurement systems.',
+                demoUrl: 'demo-weight-calculator.html',
+                technologies: ['JavaScript', 'HTML', 'CSS'],
+                features: ['Multiple Units', 'Real-time Conversion', 'User-friendly Interface']
+            },
+            // Add more project demos as needed
+        };
+
+        async function loadDemos() {
+            try {
+                // Fetch all repositories
+                const reposResponse = await fetch(`${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated&order=desc`);
+                const repos = await reposResponse.json();
+
+                if (!Array.isArray(repos)) {
+                    throw new Error('Failed to fetch repositories');
+                }
+
+                displayDemos(repos);
+            } catch (error) {
+                console.error('Error loading demos:', error);
+                document.getElementById('demosContainer').innerHTML = `
+                    <div class="demo-section">
+                        <div class="error-message">
+                            ❌ Failed to load demos. Please refresh the page or visit <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" style="color: #ff006e;">GitHub</a> directly.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function displayDemos(repos) {
+            const container = document.getElementById('demosContainer');
+            const demosHtml = [];
+
+            // Get all repos that have demo configs
+            const availableDemos = repos.filter(repo => DEMO_CONFIGS[repo.name.toLowerCase()]);
+
+            if (availableDemos.length === 0) {
+                container.innerHTML = `
+                    <div class="demo-section">
+                        <p style="color: #a0a0c0; text-align: center;">
+                            🚀 Live demos are being added! Check back soon or visit <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" style="color: #00d4ff;">GitHub</a> for more projects.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            availableDemos.forEach(repo => {
+                const config = DEMO_CONFIGS[repo.name.toLowerCase()];
+                demosHtml.push(`
+                    <div class="demo-section">
+                        <h2 class="demo-title">🎮 ${config.title}</h2>
+                        
+                        <div class="demo-info">
+                            <div>
+                                <h3 style="color: #00d4ff; margin-bottom: 0.5rem;">📝 About</h3>
+                                <p class="demo-description">${config.description}</p>
+                                
+                                <h3 style="color: #00d4ff; margin-top: 1.5rem; margin-bottom: 0.5rem;">💻 Technologies</h3>
+                                <div class="demo-tech">
+                                    ${config.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 style="color: #00d4ff; margin-bottom: 0.5rem;">✨ Features</h3>
+                                <ul style="list-style: none; color: #b0b0d0;">
+                                    ${config.features.map(feature => `<li style="margin: 0.5rem 0;">✅ ${feature}</li>`).join('')}
+                                </ul>
+
+                                <h3 style="color: #00d4ff; margin-top: 1.5rem; margin-bottom: 0.5rem;">📊 Repository Info</h3>
+                                <p style="color: #8080a0; font-size: 0.9rem;">
+                                    ⭐ ${repo.stargazers_count} stars<br>
+                                    🍴 ${repo.forks_count} forks<br>
+                                    💬 ${repo.language || 'Not specified'}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="demo-links">
+                            <a href="${config.demoUrl}" target="_blank" class="btn btn-primary">
+                                🚀 Try Demo
+                            </a>
+                            <a href="${repo.html_url}" target="_blank" class="btn btn-secondary">
+                                💻 View Source Code
+                            </a>
+                        </div>
+
+                        <div class="iframe-container">
+                            <iframe src="${config.demoUrl}" title="${config.title} Demo"></iframe>
+                        </div>
+                    </div>
+                `);
+            });
+
+            container.innerHTML = demosHtml.join('');
+        }
+
+        // Load demos on page load
+        document.addEventListener('DOMContentLoaded', loadDemos);
+    </script>
+</body>
+</html>
