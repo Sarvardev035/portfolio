@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarvardev035 - GitHub Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(15, 15, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00d4ff;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #00d4ff;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #ff006e;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        main {
+            padding: 3rem 0;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            background: rgba(30, 30, 50, 0.6);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        section:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        h2 {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #a0a0c0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .repos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .repo-card {
+            background: rgba(0, 50, 100, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .repo-card:hover {
+            background: rgba(0, 212, 255, 0.1);
+            border-color: rgba(0, 212, 255, 0.6);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .repo-name {
+            color: #00d4ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        .repo-desc {
+            color: #b0b0d0;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .repo-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #8080a0;
+            flex-wrap: wrap;
+        }
+
+        .repo-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .language {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 0, 110, 0.2);
+            border: 1px solid rgba(255, 0, 110, 0.4);
+            border-radius: 20px;
+            color: #ff006e;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .github-graph {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .loading {
+            text-align: center;
+            color: #00d4ff;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff6b6b;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: #6080a0;
+            margin-top: 3rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .repos-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contribution-graph {
+            margin: 2rem 0;
+        }
+
+        .graph-legend {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 0, 110, 0.1);
+            border: 1px solid rgba(255, 0, 110, 0.3);
+            padding: 0.8rem;
+            border-radius: 8px;
+            text-align: center;
+            color: #ff006e;
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(255, 0, 110, 0.2);
+            border-color: rgba(255, 0, 110, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Sarvardev035</h1>
+            <p class="subtitle">Full-Stack Developer | Open Source Contributor</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- GitHub Stats Section -->
+        <section>
+            <h2>📊 GitHub Stats</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="loading">Loading GitHub stats...</div>
+            </div>
+        </section>
+
+        <!-- Contribution Graph Section -->
+        <section>
+            <h2>🔥 Contribution Overview</h2>
+            <div class="contribution-graph">
+                <img id="contributionGraph" src="https://github-readme-stats.vercel.app/api?username=Sarvardev035&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00D4FF&text_color=E0E0E0&icon_color=FF006E" alt="GitHub Stats" style="width: 100%; border-radius: 10px;">
+            </div>
+        </section>
+
+        <!-- Top Languages Section -->
+        <section>
+            <h2>💻 Top Languages</h2>
+            <img id="languagesGraph" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sarvardev035&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00D4FF&text_color=E0E0E0" alt="Top Languages" style="width: 100%; border-radius: 10px;">
+        </section>
+
+        <!-- Repositories Section -->
+        <section>
+            <h2>📁 My Repositories</h2>
+            <div class="repos-container" id="reposContainer">
+                <div class="loading">Loading repositories...</div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section>
+            <h2>🛠️ Skills & Technologies</h2>
+            <div class="skills-grid" id="skillsGrid">
+                <div class="loading">Analyzing repositories...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>🚀 <a href="https://github.com/Sarvardev035" target="_blank" style="color: #00d4ff; text-decoration: none;">Visit my GitHub Profile</a> | Built with ❤️ for GitHub Pages</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Last updated: <span id="updateTime"></span></p>
+    </footer>
+
+    <script>
+        const GITHUB_USERNAME = 'Sarvardev035';
+        const API_BASE = 'https://api.github.com';
+
+        // Fetch GitHub user data
+        async function fetchGitHubData() {
+            try {
+                // Fetch user repos
+                const reposResponse = await fetch(`${API_BASE}/users/${GITHUB_USERNAME}/repos?per_page=100&sort=stars&order=desc`);
+                const repos = await reposResponse.json();
+
+                if (!Array.isArray(repos)) {
+                    throw new Error('Failed to fetch repositories');
+                }
+
+                displayRepositories(repos);
+                extractSkills(repos);
+                updateStats(repos);
+                updateTime();
+
+            } catch (error) {
+                console.error('Error fetching GitHub data:', error);
+                displayError('Failed to load GitHub data. Please refresh the page.');
+            }
+        }
+
+        function displayRepositories(repos) {
+            const container = document.getElementById('reposContainer');
+            
+            if (repos.length === 0) {
+                container.innerHTML = '<p style="color: #a0a0c0;">No public repositories found.</p>';
+                return;
+            }
+
+            container.innerHTML = repos.map(repo => `
+                <div class="repo-card" onclick="window.open('${repo.html_url}', '_blank')">
+                    <div class="repo-name">⭐ ${repo.name}</div>
+                    <div class="repo-desc">${repo.description || 'No description provided'}</div>
+                    <div class="repo-meta">
+                        ${repo.language ? `<span>💬 ${repo.language}</span>` : ''}
+                        <span>⭐ ${repo.stargazers_count}</span>
+                        <span>🍴 ${repo.forks_count}</span>
+                        ${repo.is_fork ? '<span>🔀 Forked</span>' : ''}
+                    </div>
+                    ${repo.language ? `<div class="language">${repo.language}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function extractSkills(repos) {
+            const languages = new Set();
+            
+            repos.forEach(repo => {
+                if (repo.language) {
+                    languages.add(repo.language);
+                }
+            });
+
+            const skillsGrid = document.getElementById('skillsGrid');
+            const sortedLanguages = Array.from(languages).sort();
+            
+            skillsGrid.innerHTML = sortedLanguages.map(lang => 
+                `<div class="skill-tag">${lang}</div>`
+            ).join('');
+        }
+
+        function updateStats(repos) {
+            const totalStars = repos.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+            const totalForks = repos.reduce((sum, repo) => sum + repo.forks_count, 0);
+            const languages = new Set(repos.filter(r => r.language).map(r => r.language)).size;
+
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${repos.length}</div>
+                    <div class="stat-label">Public Repositories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${totalStars}</div>
+                    <div class="stat-label">Total Stars</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${totalForks}</div>
+                    <div class="stat-label">Total Forks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${languages}</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            `;
+        }
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('updateTime').textContent = now.toLocaleString();
+        }
+
+        function displayError(message) {
+            const container = document.getElementById('reposContainer');
+            container.innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGitHubData();
+        });
+
+        // Refresh data every 5 minutes
+        setInterval(fetchGitHubData, 5 * 60 * 1000);
+    </script>
+</body>
+</html>
